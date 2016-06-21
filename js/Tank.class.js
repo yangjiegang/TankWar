@@ -1,10 +1,27 @@
-function Tank(x, y){
+function Tank(x, y, direction){
     this.SIZE = 10;
     this.SPEED = 8;
     this.x = x;
     this.y = y;
-    this.direction = 'left';
+    this.direction = direction;
     this.isRunning = false;
+    this.isAttacked = false;
+
+    this.attack = function(){
+        if(this.isAttacked){
+            return;
+        }
+        if(this.direction == 'left' || this.direction == 'right'){
+            var mx = this.x + (this.SIZE*5 - 2)/2;
+            var my = this.y + (this.SIZE*4 - 2)/2;
+        }else if(this.direction == 'up' || this.direction == 'down'){
+            var mx = this.x + (this.SIZE*4 - 2)/2;
+            var my = this.y + (this.SIZE*5 - 2)/2;
+        }
+        console.log(mx);
+        var m = new Missile(mx, my, this.direction);
+        Missiles.push(m);
+    };
 
     this.run = function(){
         switch(this.direction){
@@ -98,6 +115,9 @@ function Tank(x, y){
                 this.changeDirection('right');
                 this.isRunning = true;
                 break;
+            case 'j':
+                this.attack();
+                this.isAttacked = true;
         }
     };
 
@@ -114,37 +134,47 @@ function Tank(x, y){
         if(this.direction == 'right' && key == 'd'){
             this.isRunning = false;
         }
+        if(key == 'j'){
+            this.isAttacked = false;
+        }
     }
 
     this.draw = function(p){
         if(this.isRunning){
             this.run();
         }
-         
         p.fillStyle = 'blue';
+        var color = p.fillStyle;
+        if(this.isAttacked){
+            color = 'black';
+        }
         switch(this.direction){
             case 'up':
                 p.fillRect(this.x, this.y+this.SIZE, this.SIZE/10*9, 4*this.SIZE);
                 p.fillRect(this.x+this.SIZE/10*31, this.y+this.SIZE, this.SIZE/10*9, 4*this.SIZE);
                 p.fillRect(this.x+this.SIZE, this.y+2*this.SIZE, 2*this.SIZE, 2*this.SIZE);
+                p.fillStyle = color;
                 p.fillRect(this.x+this.SIZE/4*7, this.y, this.SIZE/2, this.SIZE*5/2);
                 break;
             case 'right':
                 p.fillRect(this.x, this.y, this.SIZE*4, this.SIZE/10*9);
                 p.fillRect(this.x, this.y+this.SIZE/10*31, this.SIZE*4, this.SIZE/10*9);
                 p.fillRect(this.x+this.SIZE, this.y+this.SIZE, this.SIZE*2, this.SIZE*2);
+                p.fillStyle = color;
                 p.fillRect(this.x+this.SIZE/2*5, this.y+this.SIZE/4*7, this.SIZE/2*5, this.SIZE/2);
                 break;
             case 'down':
                 p.fillRect(this.x, this.y, this.SIZE/10*9, 4*this.SIZE);
                 p.fillRect(this.x+this.SIZE/10*31, this.y, this.SIZE/10*9, 4*this.SIZE);
                 p.fillRect(this.x+this.SIZE, this.y+this.SIZE, 2*this.SIZE, 2*this.SIZE);
+                p.fillStyle = color;
                 p.fillRect(this.x+this.SIZE/4*7, this.y+this.SIZE/2*5, this.SIZE/2, this.SIZE*5/2);
                 break;
             case 'left':
                 p.fillRect(this.x+this.SIZE, this.y, this.SIZE*4, this.SIZE/10*9);
                 p.fillRect(this.x+this.SIZE, this.y+this.SIZE/10*31, this.SIZE*4, this.SIZE/10*9);
                 p.fillRect(this.x+this.SIZE*2, this.y+this.SIZE, this.SIZE*2, this.SIZE*2);
+                p.fillStyle = color;
                 p.fillRect(this.x, this.y+this.SIZE/4*7, this.SIZE/2*5, this.SIZE/2);
                 break;
         }
