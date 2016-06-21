@@ -4,8 +4,6 @@ window.onload = function(){
     var GAME_WIDTH = 1000;
     var GAME_HEIGHT = 600;
 
-    var SIZE = 10;
-
     var myTank = new Tank(100, 100);
 
     var yourTank = new Tank(300, 300);
@@ -13,14 +11,19 @@ window.onload = function(){
     
     function reDraw(){
         pen.clearRect(0, 0, GAME_WIDTH, GAME_HEIGHT);
-        myTank.draw(pen, SIZE);
-        yourTank.draw(pen, SIZE);
+        myTank.draw(pen);
+        yourTank.draw(pen);
     };
 
     setInterval(reDraw, 25);
 
     window.onkeydown = function(keyEvent){
         var key = keyEvent.key
-        myTank.keyEvent(key);
+        myTank.keyDownEvent(key);
+    }
+
+    window.onkeyup = function(keyEvent){
+        var key = keyEvent.key
+        myTank.keyUpEvent(key);
     }
 };
