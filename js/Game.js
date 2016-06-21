@@ -8,12 +8,15 @@ window.onload = function(){
 
     var isDebug = false;
 
-    var myTank = new Tank(100, 100, 'up');
+    var myTank = new Tank(100, 100, 'up', false);
+
+    var e = new Tank(600, 400, 'up', true);
 
 
     function reDraw(){
         pen.clearRect(0, 0, GAME_WIDTH, GAME_HEIGHT);
         myTank.draw(pen);
+        e.draw(pen);
         for(var i = 0; i < Missiles.length; i++){
             Missiles[i].draw(pen);
         }
