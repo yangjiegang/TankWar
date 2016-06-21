@@ -102,9 +102,6 @@ function Tank(x, y){
     };
 
     this.keyUpEvent = function(key){
-        //if(key == 'w' || key == 'a' || key == 's' || key == 'd'){
-            //this.isRunning = false;
-        //}
         if(this.direction == 'up' && key == 'w'){
             this.isRunning = false;
         }
