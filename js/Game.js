@@ -2,6 +2,7 @@ var GAME_WIDTH = 1000;
 var GAME_HEIGHT = 600;
 var Missiles = new Array();
 var Tanks = new Array();
+var Explosions = new Array();
 
 window.onload = function(){
     var canvas = document.getElementById('canvas');
@@ -11,25 +12,32 @@ window.onload = function(){
 
     var myTank = new Tank(100, 100, 'up', false);
 
-    var e = new Tank(600, 400, 'up', true);
-
     Tanks.push(myTank);
-    Tanks.push(e);
+
+    for(var i = 0; i < 4; i++){
+        Tanks.push(new Tank(200+i*80, 200, 'up', true));
+    }
 
 
     function reDraw(){
         pen.clearRect(0, 0, GAME_WIDTH, GAME_HEIGHT);
-        myTank.draw(pen);
-        e.draw(pen);
 
         for(var i = 0; i < Missiles.length; i++){
             Missiles[i].draw(pen);
         }
+        for(var i = 0; i < Tanks.length; i++){
+            Tanks[i].draw(pen);
+        }
+        for(var i = 0; i < Explosions.length; i++){
+            Explosions[i].draw(pen);
+        }
 
         if(isDebug){
+            pen.fillStyle = 'black';
             pen.font = 'bold 12px Courier New';
             pen.fillText('TankWar(DEBUG) -- by. Cano', 5, 16);
             pen.fillText('Count Missiles: ' + Missiles.length, 5, 32);
+            pen.fillText('Count Tanks: ' + Tanks.length, 5, 48);
         }
     };
     function loop(){
@@ -40,7 +48,9 @@ window.onload = function(){
                 var tankIsAttacked = Missiles[j].attackedTank(Tanks[i]);
                 if(tankIsAttacked){
                     Tanks[i].isDead = true;
-                    Tanks.splice(i);
+                    Tanks.splice(i, 1);
+                    Missiles.isDead = true;
+                    Missiles.splice(j);
                 }
             }
         }

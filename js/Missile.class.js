@@ -21,6 +21,9 @@ function Missile(x, y, direction, isEnemy){
                 }
             }
         }
+        if(isAttacked){
+            Explosions.push(new Explosion(this.x, this.y));
+        }
         return isAttacked;
     };
 
