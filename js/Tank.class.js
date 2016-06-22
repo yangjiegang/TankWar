@@ -19,7 +19,7 @@ function Tank(x, y, direction, isEnemy){
             var mx = this.x + (this.SIZE*4)/2;
             var my = this.y + (this.SIZE*5)/2;
         }
-        var m = new Missile(mx, my, this.direction);
+        var m = new Missile(mx, my, this.direction, this.isEnemy);
         Missiles.push(m);
     };
 
@@ -152,6 +152,9 @@ function Tank(x, y, direction, isEnemy){
     }
 
     this.draw = function(p){
+        if(this.isDead){
+            return;
+        }
         if(this.isRunning){
             this.run();
         }

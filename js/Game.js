@@ -1,6 +1,7 @@
 var GAME_WIDTH = 1000;
 var GAME_HEIGHT = 600;
 var Missiles = new Array();
+var Tanks = new Array();
 
 window.onload = function(){
     var canvas = document.getElementById('canvas');
@@ -12,11 +13,15 @@ window.onload = function(){
 
     var e = new Tank(600, 400, 'up', true);
 
+    Tanks.push(myTank);
+    Tanks.push(e);
+
 
     function reDraw(){
         pen.clearRect(0, 0, GAME_WIDTH, GAME_HEIGHT);
         myTank.draw(pen);
         e.draw(pen);
+
         for(var i = 0; i < Missiles.length; i++){
             Missiles[i].draw(pen);
         }
@@ -27,8 +32,21 @@ window.onload = function(){
             pen.fillText('Count Missiles: ' + Missiles.length, 5, 32);
         }
     };
+    function loop(){
+        reDraw();
 
-    setInterval(reDraw, 25);
+        for(var i = 0; i < Tanks.length; i++){
+            for(var j = 0; j < Missiles.length; j++){
+                var tankIsAttacked = Missiles[j].attackedTank(Tanks[i]);
+                if(tankIsAttacked){
+                    Tanks[i].isDead = true;
+                    Tanks.splice(i);
+                }
+            }
+        }
+    }
+
+    setInterval(loop, 25);
 
     window.onkeydown = function(keyEvent){
         var key = keyEvent.key;
