@@ -4,6 +4,7 @@ function Missile(x, y, direction){
     this.x = x;
     this.y = y;
     this.direction = direction;
+    this.isDead = false;
 
     this.run = function(){
         switch(this.direction){
@@ -19,6 +20,9 @@ function Missile(x, y, direction){
             case 'down':
                 this.y += this.SPEED;
                 break;
+        }
+        if(this.x > GAME_WIDTH || this.y > GAME_HEIGHT || this.x < 0-this.SIZE*2 || this.y < 0-this.SIZE*2){
+            Missiles.splice(Missiles.indexOf(this));
         }
     };
 

@@ -19,7 +19,6 @@ function Tank(x, y, direction, isEnemy){
             var mx = this.x + (this.SIZE*4)/2;
             var my = this.y + (this.SIZE*5)/2;
         }
-        console.log(mx);
         var m = new Missile(mx, my, this.direction);
         Missiles.push(m);
     };
@@ -38,6 +37,18 @@ function Tank(x, y, direction, isEnemy){
             case 'down':
                 this.y += this.SPEED;
                 break;
+        }
+        if(this.x > GAME_WIDTH - this.SIZE * 4){
+            this.x = GAME_WIDTH - this.SIZE * 4;
+        }
+        if(this.y > GAME_HEIGHT - this.SIZE * 4){
+            this.y = GAME_HEIGHT - this.SIZE * 4;
+        }
+        if(this.x < 0 - this.SIZE){
+            this.x = 0 - this.SIZE;
+        }
+        if(this.y < 0 - this.SIZE){
+            this.y = 0 - this.SIZE;
         }
     };
 

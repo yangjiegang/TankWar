@@ -1,10 +1,10 @@
+var GAME_WIDTH = 1000;
+var GAME_HEIGHT = 600;
 var Missiles = new Array();
 
 window.onload = function(){
     var canvas = document.getElementById('canvas');
     var pen = canvas.getContext('2d');
-    var GAME_WIDTH = 1000;
-    var GAME_HEIGHT = 600;
 
     var isDebug = false;
 
